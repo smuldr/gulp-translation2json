@@ -1,7 +1,7 @@
 {
-  "name": "gulp-csv2json",
-  "version": "0.1.4",
-  "description": "csv to json using gulp",
+  "name": "gulp-translation2json",
+  "version": "0.1.0",
+  "description": "Converts translation CSV file to JSON using gulp",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -13,24 +13,23 @@
     "json"
   ],
   "dependencies": {
-    "gulp-util": "~2.2.0",
-    "graceful-fs": "~2.0.0",
-    "filesize": "~2.0.0",
-    "temp-write": "~0.1.0",
-    "map-stream": "0.0.4",
-    "xml2js": "~0.4.1",
     "csv": "~0.3.7",
-    "gulp-rename": "~1.1.0"
+    "graceful-fs": "~2.0.0",
+    "gulp-util": "~2.2.0",
+    "map-stream": "0.0.4",
+    "path": "^0.11.14",
+    "temp-write": "~0.1.0"
   },
-  "author": "chilijung",
-  "license": "MIT",
   "devDependencies": {
+    "gulp-rename": "^1.2.2",
     "mocha": "~1.17.1"
   },
-  "homepage": "https://github.com/DataGarage/gulp-csv2json/",
-  "bugs": "https://github.com/DataGarage/gulp-csv2json/issues/",
+  "author": "smuldr",
+  "license": "MIT",
+  "homepage": "https://github.com/smuldr/gulp-translation2json/",
+  "bugs": "https://github.com/DataGarage/gulp-translation2json/issues/",
   "repository": {
     "type": "git",
-    "url": "git@github.com:DataGarage/gulp-csv2json.git"
+    "url": "git@github.com:smuldr/gulp-translation2json.git"
   }
 }

@@ -1,39 +1,34 @@
-# gulp-csv2json
+# gulp-translation2json
 
-[![Build Status](https://travis-ci.org/DataGarage/gulp-csv2json.png?branch=master)](https://travis-ci.org/DataGarage/gulp-csv2json)
-
-gulp plugin convert csv to json
+gulp plugin to convert CSV translation files to JSON
 
 ## Install
 
-Install with [npm](https://npmjs.org/package/gulp-csv2json)
+Install with [npm](https://npmjs.org/package/gulp-translation2json)
 
 ```
-npm install --save-dev gulp-csv2json
+npm install --save-dev gulp-translation2json
 ```
-
 
 ## Example
 
 ```js
 var gulp = require('gulp');
-var csv2json = require('gulp-csv2json');
+var translation2json = require('gulp-translation2json');
 var rename = require('gulp-rename');
 
 gulp.task('default', function () {
 	gulp.src('src/**/*.csv')
-		.pipe(csv2json())
+		.pipe(translation2json())
 		.pipe(rename({extname: '.json'}))
 		.pipe(gulp.dest('dist'));
 });
 ```
 
+## Thanks to
 
-## API
-
-### csv2json(option)
-
+[gulp-csv2json](https://github.com/chilijung/gulp-csv2json)
 
 ## License
 
-MIT [@chilijung](http://github.com/chilijung)
+MIT [@smuldr](https://github.com/smuldr)
