@@ -7,8 +7,6 @@ var map = require('map-stream');
 var tempWrite = require('temp-write');
 var csv = require('csv');
 
-var record = {};
-
 module.exports = function (options) {
     return map(function (file, cb) {
         if (file.isNull()) {
@@ -34,6 +32,7 @@ module.exports = function (options) {
                     return cb(new gutil.PluginError('gulp-translation2json', err));
                 }
 
+                var record = {};
                 options = options || {};
 
                 csv()
