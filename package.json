@@ -21,7 +21,6 @@
     "temp-write": "~0.1.0"
   },
   "devDependencies": {
-    "gulp-rename": "^1.2.2",
     "mocha": "~1.17.1"
   },
   "author": "smuldr",
