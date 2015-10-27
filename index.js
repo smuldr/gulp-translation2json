@@ -40,19 +40,16 @@ module.exports = function (options) {
                         delimiter: ',',
                         escape: '"'
                     })
-                    //.to.stream(fs.createWriteStream(config.output))
-                    .transform(function (row) {
-                        row.unshift(row.pop());
-                        return row;
-                    })
-                    .on('record', function (row, index) {
-                        record[row[1]] = row[0];
+                    .on('record', function (row) {
+                        var keyIndex = options.keysColumn || 0;
+                        var valueIndex = options.valuesColumn || 1;
+                        record[row[keyIndex]] = row[valueIndex];
                     })
                     .on('end', function (count) {
                         // when writing to a file, use the 'close' event
                         // the 'end' event may fire before the file has been written
                         //
-                        gutil.log('gulp-translation2json:', gutil.colors.green('✔ ') + file.relative);
+                        gutil.log('gulp-translation2json:', gutil.colors.green('✔ ') + file.relative, '(' + count + ' labels)');
                         file.contents = new Buffer(JSON.stringify(record));
                         file.path = gutil.replaceExtension(file.path, '.json');
                         cb(null, file);
