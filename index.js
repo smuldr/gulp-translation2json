@@ -22,42 +22,41 @@ module.exports = function (options) {
             return cb(null, file);
         }
 
-        tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
+        var tempFile = tempWrite.sync(file.contents, path.extname(file.path));
+        if (!tempFile) {
+            return cb(new gutil.PluginError('gulp-translation2json', 'Could not create temp file'));
+        }
+
+        fs.stat(tempFile, function (err) {
             if (err) {
                 return cb(new gutil.PluginError('gulp-translation2json', err));
             }
 
-            fs.stat(tempFile, function (err, stats) {
-                if (err) {
-                    return cb(new gutil.PluginError('gulp-translation2json', err));
-                }
+            var record = {};
+            options = options || {};
 
-                var record = {};
-                options = options || {};
-
-                csv()
-                    .from.path(tempFile, {
-                        delimiter: ',',
-                        escape: '"'
-                    })
-                    .on('record', function (row) {
-                        var keyIndex = options.keysColumn || 0;
-                        var valueIndex = options.valuesColumn || 1;
-                        record[row[keyIndex]] = row[valueIndex];
-                    })
-                    .on('end', function (count) {
-                        // when writing to a file, use the 'close' event
-                        // the 'end' event may fire before the file has been written
-                        //
-                        gutil.log('gulp-translation2json:', gutil.colors.green('✔ ') + file.relative, '(' + count + ' labels)');
-                        file.contents = new Buffer(JSON.stringify(record));
-                        file.path = gutil.replaceExtension(file.path, '.json');
-                        cb(null, file);
-                    })
-                    .on('error', function (error) {
-                        return cb(new gutil.PluginError('gulp-translation2json', error));
-                    });
-            });
+            csv()
+                .from.path(tempFile, {
+                    delimiter: ',',
+                    escape: '"'
+                })
+                .on('record', function (row) {
+                    var keyIndex = options.keysColumn || 0;
+                    var valueIndex = options.valuesColumn || 1;
+                    record[row[keyIndex]] = row[valueIndex];
+                })
+                .on('end', function (count) {
+                    // when writing to a file, use the 'close' event
+                    // the 'end' event may fire before the file has been written
+                    //
+                    gutil.log('gulp-translation2json:', gutil.colors.green('✔ ') + file.relative, '(' + count + ' labels)');
+                    file.contents = new Buffer(JSON.stringify(record));
+                    file.path = gutil.replaceExtension(file.path, '.json');
+                    cb(null, file);
+                })
+                .on('error', function (error) {
+                    return cb(new gutil.PluginError('gulp-translation2json', error));
+                });
         });
     });
 };
