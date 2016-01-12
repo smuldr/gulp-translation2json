@@ -15,8 +15,8 @@ it('should convert csv to json', function (cb) {
         cb();
     });
     stream.write(new gutil.File({
-        path: __dirname + '/sample/sample-csv.csv',
-        contents: fs.readFileSync(__dirname + '/sample/sample-csv.csv')
+        path: __dirname + '/sample/sample.csv',
+        contents: fs.readFileSync(__dirname + '/sample/sample.csv')
     }));
 });
 
@@ -34,7 +34,7 @@ it('should use options to select the column csv to json', function (cb) {
         cb();
     });
     stream.write(new gutil.File({
-        path: __dirname + '/sample/sample-csv.csv',
-        contents: fs.readFileSync(__dirname + '/sample/sample-csv.csv')
+        path: __dirname + '/sample/sample.csv',
+        contents: fs.readFileSync(__dirname + '/sample/sample.csv')
     }));
 });
