@@ -2,16 +2,27 @@
   "name": "gulp-translation2json",
   "version": "0.2.0",
   "description": "Converts translation CSV file to JSON using gulp",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
   "keywords": [
     "gulp",
     "gulpplugin",
     "csv",
-    "json"
+    "json",
+    "translation",
+    "translations",
+    "dictionary"
   ],
+  "homepage": "https://github.com/smuldr/gulp-translation2json/",
+  "bugs": "https://github.com/smuldr/gulp-translation2json/issues/",
+  "license": "MIT",
+  "author": "Steven Mulder <steven.mulder@gmail.com> (https://github.com/smuldr/)",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "repository": "smuldr/gulp-translation2json",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "csv-parse": "^1.0.1",
     "gulp-util": "~3.0.6",
@@ -21,12 +32,7 @@
   "devDependencies": {
     "mocha": "^2.3.3"
   },
-  "author": "smuldr",
-  "license": "MIT",
-  "homepage": "https://github.com/smuldr/gulp-translation2json/",
-  "bugs": "https://github.com/DataGarage/gulp-translation2json/issues/",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:smuldr/gulp-translation2json.git"
+  "engines": {
+    "node": ">=0.10.0"
   }
 }
