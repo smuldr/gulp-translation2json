@@ -1,62 +1,50 @@
 'use strict';
 
 var path = require('path');
-var fs = require('graceful-fs');
 var gutil = require('gulp-util');
-var map = require('map-stream');
-var tempWrite = require('temp-write');
-var csv = require('csv');
+var through = require('through2');
+var parse = require('csv-parse');
 
 module.exports = function (options) {
-    return map(function (file, cb) {
+    options = options || {};
+    var keysColumn = options.keysColumn || 0;
+    var valuesColumn = options.valuesColumn || 1;
+
+    return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
-            return cb(null, file);
+            return callback(null, file);
         }
 
         if (file.isStream()) {
-            return cb(new gutil.PluginError('gulp-translation2json', 'Streaming not supported'));
+            return callback(new gutil.PluginError('gulp-translation2json', 'Streaming not supported'));
         }
 
         if (['.csv'].indexOf(path.extname(file.path)) === -1) {
-            gutil.log('gulp-translation2json: Skipping unsupported csv ' + gutil.colors.blue(file.relative));
-            return cb(null, file);
+            gutil.log('gulp-translation2json', 'Skipping unsupported csv ' + gutil.colors.cyan(file.relative));
+            return callback(null, file);
         }
 
-        var tempFile = tempWrite.sync(file.contents, path.extname(file.path));
-        if (!tempFile) {
-            return cb(new gutil.PluginError('gulp-translation2json', 'Could not create temp file'));
-        }
-
-        fs.stat(tempFile, function (err) {
-            if (err) {
-                return cb(new gutil.PluginError('gulp-translation2json', err));
+        var output = {};
+        var count = 0;
+        var parser = parse(options);
+        parser.on('readable', function () {
+            var record;
+            while (record = parser.read()) {
+                output[record[keysColumn]] = record[valuesColumn];
+                count++;
             }
-
-            var record = {};
-            options = options || {};
-
-            csv()
-                .from.path(tempFile, {
-                    delimiter: ',',
-                    escape: '"'
-                })
-                .on('record', function (row) {
-                    var keyIndex = options.keysColumn || 0;
-                    var valueIndex = options.valuesColumn || 1;
-                    record[row[keyIndex]] = row[valueIndex];
-                })
-                .on('end', function (count) {
-                    // when writing to a file, use the 'close' event
-                    // the 'end' event may fire before the file has been written
-                    //
-                    gutil.log('gulp-translation2json:', gutil.colors.green('✔ ') + file.relative, '(' + count + ' labels)');
-                    file.contents = new Buffer(JSON.stringify(record));
-                    file.path = gutil.replaceExtension(file.path, '.json');
-                    cb(null, file);
-                })
-                .on('error', function (error) {
-                    return cb(new gutil.PluginError('gulp-translation2json', error));
-                });
         });
+        parser.on('error', function (err) {
+            return callback(new gutil.PluginError('gulp-translation2json', err));
+        });
+        parser.on('finish', function () {
+            file.contents = new Buffer(JSON.stringify(output));
+            file.path = gutil.replaceExtension(file.path, '.json');
+            gutil.log('gulp-translation2json', gutil.colors.green('✔'), gutil.colors.cyan(file.relative),
+                '(' + count + ' rows)');
+            callback(null, file);
+        });
+        parser.write(file.contents);
+        parser.end();
     });
 };

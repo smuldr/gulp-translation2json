@@ -1,10 +1,10 @@
 # gulp-translation2json
 
-gulp plugin to convert CSV translation files to JSON
+Gulp plugin to convert CSV translation files to JSON using the [csv](https://www.npmjs.com/package/csv) package.
 
 ## Installation
 
-Install with [npm](https://npmjs.org/package/gulp-translation2json)
+Install with [npm](https://npmjs.org/package/gulp-translation2json):
 
 ```
 npm install --save-dev gulp-translation2json
@@ -24,6 +24,10 @@ gulp.task('translate', function () {
 ```
 
 ## Options
+
+The plugin passes all options on to the csv parser. For a full list of options see the [csv docs](http://csv.adaltas.com/parse/).
+
+Extra options for the translation2json plugin:
 
 - `keysColumn`
 
