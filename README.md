@@ -37,6 +37,10 @@ Extra options for the translation2json plugin:
 
     Set the column index for the translation values. Default value: `1`.
 
+- `indent`
+
+    Set the indentation used for pretty printing. Set to `null` for no pretty printing. Default: (2 spaces).
+
 ## Thanks to
 
 [gulp-csv2json](https://github.com/chilijung/gulp-csv2json)

@@ -9,6 +9,7 @@ module.exports = function (options) {
     options = options || {};
     var keysColumn = options.keysColumn || 0;
     var valuesColumn = options.valuesColumn || 1;
+    var indent = options.indent === undefined ? '  ' : options.indent;
 
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
@@ -38,7 +39,7 @@ module.exports = function (options) {
             return callback(new gutil.PluginError('gulp-translation2json', err));
         });
         parser.on('finish', function () {
-            file.contents = new Buffer(JSON.stringify(output));
+            file.contents = new Buffer(JSON.stringify(output, null, indent));
             file.path = gutil.replaceExtension(file.path, '.json');
             gutil.log('gulp-translation2json', gutil.colors.green('✔'), gutil.colors.cyan(file.relative),
                 '(' + count + ' rows)');
