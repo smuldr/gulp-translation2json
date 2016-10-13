@@ -38,3 +38,20 @@ it('should use options to select the column csv to json', function (cb) {
         contents: fs.readFileSync(__dirname + '/sample/sample.csv')
     }));
 });
+
+it('should use options to set indent for pretty printing', function (cb) {
+    var prettyPrinted = "{\n  \"key1\": \"value1\",\n  " +
+        "\"key2\": \"value2\",\n  \"key3\": \"value3\"\n}";
+    var stream = translation2json({
+        indent: '  '
+    });
+    stream.on('data', function (file) {
+        var output = file.contents.toString('utf-8');
+        assert.equal(output, prettyPrinted);
+        cb();
+    });
+    stream.write(new gutil.File({
+        path: __dirname + '/sample/sample.csv',
+        contents: fs.readFileSync(__dirname + '/sample/sample.csv')
+    }));
+});
