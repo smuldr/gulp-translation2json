@@ -45,6 +45,10 @@ Extra options for the translation2json plugin:
 
 [gulp-csv2json](https://github.com/chilijung/gulp-csv2json)
 
+## Contibutors
+
+- [@timonsn](https://github.com/timonsn)
+
 ## License
 
 MIT [@smuldr](https://github.com/smuldr)
